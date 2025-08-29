@@ -18,5 +18,8 @@ class Purchase(models.Model):
     user = models.ForeignKey("myapp.User", on_delete=models.DO_NOTHING)
     item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 
 
