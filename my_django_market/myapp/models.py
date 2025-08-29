@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 class MyUser(AbstractUser):
     balance = models.DecimalField(
@@ -15,7 +16,7 @@ class Item(models.Model):
     quantity = models.IntegerField(default=0)
 
 class Purchase(models.Model):
-    user = models.ForeignKey("myapp.MyUser", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
