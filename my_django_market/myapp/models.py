@@ -14,6 +14,9 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(default=0)
 
-
+class Purchase(models.Model):
+    user = models.ForeignKey("myapp.User", on_delete=models.DO_NOTHING)
+    item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
+    quantity = models.PositiveIntegerField(null=False, blank=False)
 
 
