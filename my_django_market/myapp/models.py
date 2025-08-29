@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
+from django.contrib.auth.models import AbstractUser
 
 class MyUser(AbstractUser):
     balance = models.DecimalField(
         max_digits=10,
         decimal_places=2, 
-        default=0.00
+        default=10000.00
     )
 
 class Item(models.Model):
@@ -15,7 +15,7 @@ class Item(models.Model):
     quantity = models.IntegerField(default=0)
 
 class Purchase(models.Model):
-    user = models.ForeignKey("myapp.User", on_delete=models.DO_NOTHING)
+    user = models.ForeignKey("myapp.MyUser", on_delete=models.DO_NOTHING)
     item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
