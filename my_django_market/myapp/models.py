@@ -20,6 +20,10 @@ class Purchase(models.Model):
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Return(models.Model):
+    purchase = models.ForeignKey('myapp.Purchase', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
 
 
