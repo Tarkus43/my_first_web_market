@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from django.views.generic import ListView, TemplateView
 
-# Create your views here.
+class MainPageView(TemplateView):
+    paginate_by = 10
+    template_name = 'base.html'
