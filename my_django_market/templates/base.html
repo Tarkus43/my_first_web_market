@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="stylesheet" href={% static "" %}>
-    <title></title>
+    <link rel="stylesheet" href="{% static 'styles/css/index.min.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
-    
+    <nav>
+    </nav>
+    {% block main %}
+    {% endblock main %}
 </body>
 </html>
