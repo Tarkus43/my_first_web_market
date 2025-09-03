@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth.views import LoginView
+from .models import Item
 
-class MainPageView(TemplateView):
-    paginate_by = 10
-    template_name = 'base.html'
+class MainPageView(ListView):
+    model = Item
+    paginate_by = 5
+    template_name = 'main.html'
 
 class Login(LoginView):
     success_url ='/'
