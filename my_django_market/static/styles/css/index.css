@@ -2,7 +2,38 @@ body {
   background-color: blanchedalmond;
 }
 
+:root {
+  --night: #05386B;
+  --emerald: #379683;
+  --grass: #5cdb95;
+  --smoke: #8ee4af;
+  --light: #edf5e1;
+}
+
 nav {
-  background-color: red;
-  height: 10px;
+  min-height: 10vh;
+}
+
+body {
+  background-color: var(--grass);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
 }/*# sourceMappingURL=index.css.map */

@@ -1,4 +1,9 @@
+@use "../utils/root";
+
 nav{
-    background-color: red;
-    height: 10px;
+    min-height: 10vh;
+}
+
+body{
+    background-color: var(--grass);
 }
