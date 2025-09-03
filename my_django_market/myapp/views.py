@@ -6,5 +6,9 @@ class MainPageView(TemplateView):
     paginate_by = 10
     template_name = 'base.html'
 
-class MyLoginView(LoginView):
-    pass
+class Login(LoginView):
+    success_url ='/'
+    template_name = 'login.html'
+
+    def get_success_url(self):
+        return self.get_success_url

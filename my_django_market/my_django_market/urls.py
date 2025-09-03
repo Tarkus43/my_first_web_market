@@ -21,9 +21,9 @@ from django.conf.urls.static import static
 from myapp.views import MainPageView, LoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls,),
+    path('admin/', admin.site.urls),
     path('', MainPageView.as_view(), name='home'),
-    path('login/', MainPageView.as_view(), name='home'),
+    path('login/', MainPageView.as_view(), name='login'),
 ]
 
 if settings.DEBUG:
