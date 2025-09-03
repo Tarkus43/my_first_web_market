@@ -1,0 +1,22 @@
+.main_main{
+    background-color: var(--smoke);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.items_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--grass);
+    max-width: fit-content;
+    padding: 10vh;
+
+}
+
+.item{
+    max-width: 40vh;
+}
