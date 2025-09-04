@@ -19,8 +19,8 @@
                     <li class="item_description">{{ item.description }}</li>
                     <li class="item_price">{{ item.price }}$</li>
                     {% if user.username == 'admin'%}
-                        <p>quantity on storage: {{ item.quantity }}</p>
-                        <a href=""></a>    
+                        <p class="item_price">quantity on storage: {{ item.quantity }}</p>
+                    {% endif %}
                     <button class="buy">buy</button>
                 </ul>
 

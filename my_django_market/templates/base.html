@@ -16,7 +16,7 @@
                 
                 {% if user.username == "admin" %}
                     <li class="nav_item"><a href="">refunds</a></li>
-                    <li class="nav_item"><a href="">add item</a></li>
+                    <li class="nav_item"><a href='{% url "add_item" %}'>add item</a></li>
                 {% else %}    
                     <li class="nav_item"><a href="">purchase list</a></li>
                 {% endif %}
