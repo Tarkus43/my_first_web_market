@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 from django.views.generic import ListView, TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from .models import Item
+
+User = get_user_model()
 
 class MainPageView(ListView):
     queryset = Item.objects.all()
@@ -17,7 +21,7 @@ class Login(LoginView):
     def get_success_url(self):
         return self.get_success_url
     
-    
+
 class Logout(LoginRequiredMixin, LogoutView):
     next_page = '/'
     login_url = 'login/'

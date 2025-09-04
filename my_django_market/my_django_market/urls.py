@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from myapp.views import MainPageView, LoginView
+from myapp.views import MainPageView, Login, Logout, Register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPageView.as_view(), name='home'),
-    path('login/', MainPageView.as_view(), name='login'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', Logout.as_view(), name="logout" ),
+    path('register/', Register.as_view(), name="register" )
 ]
 
 if settings.DEBUG:
