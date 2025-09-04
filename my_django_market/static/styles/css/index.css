@@ -93,7 +93,7 @@ body {
 }
 
 .nav_item {
-  font-size: 5vh;
+  font-size: 4vh;
 }
 .nav_item :hover {
   color: var(--light);

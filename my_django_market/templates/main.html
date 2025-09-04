@@ -17,9 +17,13 @@
                 <ul class="item">
                     <li class="item_name">{{ item.name }}</li>
                     <li class="item_description">{{ item.description }}</li>
-                    <li class="item_price">{{ item.price }}$</li>    
+                    <li class="item_price">{{ item.price }}$</li>
+                    {% if user.username == 'admin'%}
+                        <p>quantity on storage: {{ item.quantity }}</p>
+                        <a href=""></a>    
                     <button class="buy">buy</button>
                 </ul>
+
             {% endfor %}
 
             <div class="pagination">
