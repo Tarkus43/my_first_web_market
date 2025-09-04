@@ -18,7 +18,7 @@
                     <li class="item_name">{{ item.name }}</li>
                     <li class="item_description">{{ item.description }}</li>
                     <li class="item_price">{{ item.price }}$</li>
-                    {% if user.username == 'admin'%}
+                    {% if user.is_superuser%}
                         <p class="item_price">quantity on storage: {{ item.quantity }}</p>
                         <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
                     {% else %}
