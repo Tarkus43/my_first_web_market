@@ -31,7 +31,7 @@ class Purchase(models.Model):
         ordering = ['-created_at', ]
 
 class Return(models.Model):
-    purchase = models.ForeignKey('myapp.Purchase', on_delete=models.CASCADE)
+    purchase = models.OneToOneField('myapp.Purchase', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
