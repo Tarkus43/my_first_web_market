@@ -64,6 +64,17 @@
   font-size: 50px;
 }
 
+.main_user_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+  font-size: xx-large;
+  background-color: var(--night);
+  color: var(--light);
+  padding: 3vh;
+}
+
 nav {
   min-height: 10vh;
   display: flex;
@@ -94,17 +105,6 @@ body {
   padding: 1vh;
 }
 
-.nav_user_info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3vh;
-  font-size: xx-large;
-  background-color: var(--night);
-  color: var(--light);
-  padding: 3vh;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -123,4 +123,10 @@ li {
 
 a {
   text-decoration: none;
+}
+
+.login_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }/*# sourceMappingURL=index.css.map */

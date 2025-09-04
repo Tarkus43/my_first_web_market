@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block balance %}
-    {{user.balance}}
-{% endblock balance %}
-
-{% block username %}{{ user.username }}{% endblock username %}
-
+{% block user_info %}
+    <div class="main_user_info">
+        <span class="main_user_username">{{user.username}}</span>
+        <br>
+        <span class="main_user_balance">balance:{{user.balance}}</span>
+    </div>
+{% endblock user_info %}
 
 
 
