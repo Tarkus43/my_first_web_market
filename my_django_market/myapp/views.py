@@ -1,12 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth import get_user_model
 from django.views.generic import ListView, TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from .forms import MyUserCreationForm
 from .models import Item
-
-User = get_user_model()
 
 class MainPageView(ListView):
     queryset = Item.objects.all()
@@ -15,11 +13,11 @@ class MainPageView(ListView):
     
 
 class Login(LoginView):
-    success_url ='/'
-    template_name = 'login.html'
 
-    def get_success_url(self):
-        return self.get_success_url
+    template_name = 'login.html'
+    redirect_authenticated_user = False
+    success_url ='/'
+    
     
 
 class Logout(LoginRequiredMixin, LogoutView):
@@ -28,6 +26,6 @@ class Logout(LoginRequiredMixin, LogoutView):
 
     
 class Register(CreateView):
-    form_class = UserCreationForm
+    form_class = MyUserCreationForm
     template_name = 'register.html'
     success_url = '/'

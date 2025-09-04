@@ -94,6 +94,17 @@ body {
   padding: 1vh;
 }
 
+.nav_user_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+  font-size: xx-large;
+  background-color: var(--night);
+  color: var(--light);
+  padding: 3vh;
+}
+
 * {
   margin: 0;
   padding: 0;
