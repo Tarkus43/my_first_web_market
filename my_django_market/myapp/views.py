@@ -1,16 +1,20 @@
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm
 from myapp.models import Item
 from myapp.models import Item
 
-class AddItemView(CreateView):
+class AddItemView(UserPassesTestMixin, CreateView):
     form_class = AddItemForm
     template_name = "add_item.html"
+    success_url = '/'
+
+    def test_func(self) -> bool:
+        return self.request.user.username == 'admin'
 
 
 class MainPageView(ListView):
