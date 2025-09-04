@@ -20,10 +20,11 @@
                     <li class="item_price">{{ item.price }}$</li>
                     {% if user.username == 'admin'%}
                         <p class="item_price">quantity on storage: {{ item.quantity }}</p>
+                        <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
+                    {% else %}
+                        <button class="buy">buy</button>
                     {% endif %}
-                    <button class="buy">buy</button>
                 </ul>
-
             {% endfor %}
 
             <div class="pagination">

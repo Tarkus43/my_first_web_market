@@ -1,12 +1,23 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, CreateView
-from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm
 from myapp.models import Item
 from myapp.models import Item
+
+
+class EditItemView(UserPassesTestMixin, UpdateView):
+    model = Item
+    fields = ['name', 'description','price','quantity']
+    success_url = '/'
+    template_name = 'edit_item.html'
+
+    def test_func(self):
+        return self.request.user.username == 'admin'
+    
+
 
 class AddItemView(UserPassesTestMixin, CreateView):
     form_class = AddItemForm
