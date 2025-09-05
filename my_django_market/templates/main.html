@@ -12,6 +12,7 @@
 
 {% block main %}
     <h1 class="main_title">Items</h1>
+    <h2 class="info_title">{{ request.GET.info }}</h2>
     <main class="main_main">
         <ul class="items_list">
             {% for item in object_list %}
@@ -24,7 +25,11 @@
                         <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
                     {% else %}
                         {% if user.is_authenticated %}
-                            <button class="buy">buy</button>
+                            <form method="post" action='{% url "buy_item" item.id %}'>
+                                {% csrf_token %}
+                                {{form}}
+                                <input class="buy" type="submit" value="buy">
+                            </form>
 
                             
                         {% else %}

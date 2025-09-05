@@ -1,11 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect 
+from django.urls import reverse
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
-from myapp.forms import MyUserCreationForm, AddItemForm
+from django.views import View
+from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund
+from myapp.transactions import purchase_transaction
 
+class BuyItemView(View):
+    http_method_names = ['post'] 
+    
+
+
+    def post(self,request,pk):
+        quantity = int(request.POST.get("quantity", 1))
+        user_id = self.request.user.id
+        
+        result = purchase_transaction(pk, quantity, user_id )
+        info = result
+
+        if result == 'succes':
+            info = 'you succesfuly bought that'
+        elif result == 'not enough items':
+            info = 'not enough items in storage'
+        elif result == 'not enough money':
+            info = 'not enough money on your balance'
+        else:
+            info = 'some other error'
+        
+        url = reverse("home") + f"?info={result}"
+        return redirect(url)
+
+        
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
@@ -40,6 +68,9 @@ class MainPageView(ListView):
     queryset = Item.objects.all()
     paginate_by = 3
     template_name = 'main.html'
+    extra_context = {'form':BuyingForm}
+
+
     
 
 class Login(LoginView):

@@ -22,8 +22,8 @@ class Item(models.Model):
     
 
 class Purchase(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
-    item = models.OneToOneField('myapp.Item', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
