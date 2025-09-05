@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}your purchases{% endblock title %}
+{% block main %}
+    <main class="main_main">
+        <ul class="items_list">
+            {% for purchase in object_list %}
+                <ul class="item">
+                    <li class="item_name">{{ purchase.item.name }}</li>
+                    <li class="item_description">{{ purchase.quantity }}</li>
+                </ul>
+            {% endfor %}
+
+            <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+        </ul>
+    </main>
+{% endblock main %}

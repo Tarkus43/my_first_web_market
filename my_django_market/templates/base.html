@@ -18,7 +18,7 @@
                     <li class="nav_item"><a href='{% url "refunds" %}'>refunds</a></li>
                     <li class="nav_item"><a href='{% url "add_item" %}'>add item</a></li>
                 {% else %}    
-                    <li class="nav_item"><a href="">purchase list</a></li>
+                    <li class="nav_item"><a href='{% url "purchases" %}'>purchase list</a></li>
                 {% endif %}
                 
                 <form class="nav_item" action="{% url 'logout' %}" method="post">

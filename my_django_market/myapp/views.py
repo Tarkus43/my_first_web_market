@@ -6,8 +6,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from django.views import View
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
-from myapp.models import Item, Refund
+from myapp.models import Item, Refund, Purchase
 from myapp.transactions import purchase_transaction
+
+class PurchasesView(LoginRequiredMixin, ListView):
+    model = Purchase
+    template_name ='purchases.html'
+    paginate_by = 3
 
 class BuyItemView(View):
     http_method_names = ['post'] 
