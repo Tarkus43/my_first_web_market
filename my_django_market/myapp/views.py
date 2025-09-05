@@ -15,7 +15,7 @@ class EditItemView(UserPassesTestMixin, UpdateView):
     template_name = 'edit_item.html'
 
     def test_func(self):
-        return self.request.user.is_superuser()
+        return self.request.user.is_superuser
     
 
 
@@ -25,7 +25,7 @@ class AddItemView(UserPassesTestMixin, CreateView):
     success_url = '/'
 
     def test_func(self) -> bool:
-        return self.request.user.is_superuser()
+        return self.request.user.is_superuser
 
 
 class MainPageView(ListView):
