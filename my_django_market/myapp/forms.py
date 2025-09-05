@@ -11,3 +11,8 @@ class AddItemForm(ModelForm):
     class Meta:
         model = Item
         fields = ['name', 'description','price','quantity']
+
+class BuyingForm(ModelForm):
+    class Meta:
+        model = Item
+        fields = ['quantity']

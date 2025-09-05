@@ -23,7 +23,13 @@
                         <p class="item_price">quantity on storage: {{ item.quantity }}</p>
                         <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
                     {% else %}
-                        <button class="buy">buy</button>
+                        {% if user.is_authenticated %}
+                            <button class="buy">buy</button>
+
+                            
+                        {% else %}
+                            <a href='{% url "login" %}' class="buy">buy</a>    
+                        {% endif %}
                     {% endif %}
                 </ul>
             {% endfor %}

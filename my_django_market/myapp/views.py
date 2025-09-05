@@ -9,6 +9,11 @@ from myapp.models import Item, Refund
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
+    paginate_by = 5
+    template_name = 'refunds.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class EditItemView(UserPassesTestMixin, UpdateView):

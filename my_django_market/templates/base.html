@@ -15,7 +15,7 @@
             {% if user.is_authenticated %}
                 
                 {% if user.is_superuser %}
-                    <li class="nav_item"><a href="">refunds</a></li>
+                    <li class="nav_item"><a href='{% url "refunds" %}'>refunds</a></li>
                     <li class="nav_item"><a href='{% url "add_item" %}'>add item</a></li>
                 {% else %}    
                     <li class="nav_item"><a href="">purchase list</a></li>
