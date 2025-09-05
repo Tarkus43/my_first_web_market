@@ -30,7 +30,7 @@ class Purchase(models.Model):
     class Meta:
         ordering = ['-created_at', ]
 
-class Return(models.Model):
+class Refund(models.Model):
     purchase = models.OneToOneField('myapp.Purchase', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     

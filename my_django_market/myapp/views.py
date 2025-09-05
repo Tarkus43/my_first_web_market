@@ -4,8 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm
-from myapp.models import Item
-from myapp.models import Item
+from myapp.models import Item, Refund
+
+
+class RefundsView(UserPassesTestMixin, ListView):
+    model = Refund
 
 
 class EditItemView(UserPassesTestMixin, UpdateView):
