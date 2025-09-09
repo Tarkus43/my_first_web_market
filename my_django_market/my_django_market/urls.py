@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from myapp.views import MainPageView, Login, Logout, Register, AddItemView, EditItemView, RefundsView
+from myapp.views import MainPageView, Login, Logout, Register, AddItemView, EditItemView, RefundsView, BuyingView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +29,7 @@ urlpatterns = [
     path('add_item', AddItemView.as_view(), name="add_item"),
     path('<int:pk>/', EditItemView.as_view(), name="edit_item"),
     path('refunds/', RefundsView.as_view(), name="refunds"),
+    path('buy/<int:pk>', BuyingView.as_view(), name="buy"),
 ]
 
 if settings.DEBUG:
