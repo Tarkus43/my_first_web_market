@@ -24,7 +24,11 @@
                         <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
                     {% else %}
                         {% if user.is_authenticated %}
-                            <button class="buy">buy</button>
+                            <form action='{% url "buy" item.id %}' method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                                <input type="submit" value="buy" class="buy">
+                            </form>
 
                             
                         {% else %}

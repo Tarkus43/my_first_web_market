@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
-from myapp.forms import MyUserCreationForm, AddItemForm
+from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund
 
 class BuyingView(CreateView):
@@ -52,6 +52,9 @@ class MainPageView(ListView):
     queryset = Item.objects.all()
     paginate_by = 3
     template_name = 'main.html'
+    extra_context ={
+        'form': BuyingForm
+    }
     
 
 class Login(LoginView):
