@@ -15,9 +15,11 @@ class AddItemForm(ModelForm):
         fields = ['name', 'description','price','quantity']
 
 
-class BuyingForm(forms.):
-    
+class BuyingForm(forms.Form):
+    qty = forms.IntegerField(min_value=1, required=True)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
+    
+    # def clean_qty(self):
