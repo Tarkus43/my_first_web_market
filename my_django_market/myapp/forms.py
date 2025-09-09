@@ -20,6 +20,9 @@ class BuyingForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
+        self.item_id = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
     
-    # def clean_qty(self):
+    
+    
+ 

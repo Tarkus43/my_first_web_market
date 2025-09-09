@@ -12,6 +12,7 @@ class BuyingView(CreateView):
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
         form_kwargs['request'] = self.request
+        form_kwargs['pk'] = self.kwargs['pk']
 
         return form_kwargs
 
