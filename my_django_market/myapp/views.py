@@ -8,7 +8,6 @@ from myapp.models import Item, Refund
 
 class BuyingView(CreateView):
     http_method_names = ['post']
-    
 
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
