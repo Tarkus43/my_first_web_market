@@ -6,6 +6,12 @@ from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm
 from myapp.models import Item, Refund
 
+class BuyingView(CreateView):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        pass
+
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
