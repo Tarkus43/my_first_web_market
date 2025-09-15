@@ -23,22 +23,7 @@ class BuyingForm(forms.Form):
         self.request = kwargs.pop('request', None)
         self.item_id = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
-    
-    def clean_qty(self):
-        user_qty = self.cleaned_data['qty']
-        item_qty = Item.objects.get(id=self.item_id).quantity
 
-        if user_qty > item_qty:
-            raise ValidationError('Not enough items on storage')
-        
-    def clean_balance(self):
-        user_id = self.request.user.id
-        user_balance = MyUser.objects.get(id=user_id).balance
-        item_price = Item.objects.get(id=self.item_id).price
-
-        if user_balance < item_price:
-            raise ValidationError('Not enough money on balance')
-        
 
     def clean(self):
         cleaned_data =  super().clean()
@@ -53,6 +38,7 @@ class BuyingForm(forms.Form):
         if user_qty > item_qty:
             self.add_error(None, 'Not enough items on storage')
         
+        return cleaned_data
 
         
 
