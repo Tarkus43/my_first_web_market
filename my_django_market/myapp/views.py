@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
 
-class BuyingView(CreateView):
+class BuyingView(FormView):
     http_method_names = ['post']
     success_url = '/'
     form_class = BuyingForm
@@ -24,7 +24,13 @@ class BuyingView(CreateView):
         qty = form.cleaned_data['qty']
 
         try:
-            Purchase.execute(user, item, qty)
+            result = Purchase.execute(user, item, qty)
+
+            if result == 'succes':
+                Purchase.objects.create(user=user, item=item, quantity=qty)
+            else:
+                raise ValueError
+            
         except ValueError as msg:
              
             form.add_error(None, str(msg))
