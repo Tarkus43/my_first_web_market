@@ -4,10 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
-from myapp.models import Item, Refund
+from myapp.models import Item, Refund, Purchase
 
 class BuyingView(CreateView):
     http_method_names = ['post']
+    success_url = '/'
+    form_class = BuyingForm
 
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
@@ -17,9 +19,16 @@ class BuyingView(CreateView):
         return form_kwargs
 
     def form_valid(self, form):
-        
-        return super().form_valid(form)
-    
+        item = Item.objects.get(id=self.kwargs['pk'])
+        user = self.request.user
+        qty = form.cleaned_data['qty']
+
+        try:
+            Purchase.execute(user, item, qty)
+        except ValueError as msg:
+             
+            form.add_error(None, str(msg))
+            return self.form_invalid(form)
 
 
 class RefundsView(UserPassesTestMixin, ListView):
