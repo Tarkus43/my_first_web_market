@@ -27,6 +27,22 @@ class Purchase(models.Model):
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+    def execute(cls, user: MyUser, item: Item, qty):
+
+        if user.balance < item.price * qty:
+            raise ValueError("Not enough money")
+        if item.quantity < qty:
+            raise ValueError("Not enough items")
+        
+        user.balance -= item.price * qty
+        item.quantity -= qty
+
+        user.save()
+        item.save()
+
+        return cls.objects.create(user=user, item=item, quantity=qty)
+
     class Meta:
         ordering = ['-created_at', ]
 
