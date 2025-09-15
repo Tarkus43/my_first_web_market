@@ -16,8 +16,10 @@ class BuyingView(CreateView):
 
         return form_kwargs
 
-    def post(self, request, *args, **kwargs):
-        return redirect('/')
+    def form_valid(self, form):
+        
+        return super().form_valid(form)
+    
 
 
 class RefundsView(UserPassesTestMixin, ListView):
