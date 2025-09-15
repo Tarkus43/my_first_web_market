@@ -48,6 +48,12 @@ class BuyingForm(forms.Form):
         user_balance = MyUser.objects.get(id=user_id).balance
         item_price = Item.objects.get(id=self.item_id).price
 
+        if user_balance < item_price:
+            self.add_error('balance', 'Not enough money')
+        if user_qty > item_qty:
+            self.add_error(None, 'Not enough items on storage')
+        
+
         
 
 

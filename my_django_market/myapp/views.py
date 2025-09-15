@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -17,7 +17,7 @@ class BuyingView(CreateView):
         return form_kwargs
 
     def post(self, request, *args, **kwargs):
-        pass
+        return redirect('/')
 
 
 class RefundsView(UserPassesTestMixin, ListView):
