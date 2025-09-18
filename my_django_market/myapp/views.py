@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib import messages
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
@@ -19,7 +20,11 @@ class BuyingView(CreateView):
 
         return form_kwargs
 
-
+    def form_invalid(self, form):
+        for error in form.errors.values():
+            messages.error(self.request, error)
+        return redirect('/')
+    
 
 
 class RefundsView(UserPassesTestMixin, ListView):
