@@ -28,15 +28,13 @@ class BuyingView(CreateView):
         user = self.request.user
         qty = form.cleaned_data['qty']
 
-        try:
-            Purchase.execute(user, item, qty)
+        purchase = form.save(on_commit= False)
 
-        except ValueError as msg:
-             
-            form.add_error(None, str(msg))
-            return self.form_invalid(form)
 
         return super().form_valid(form)
+
+
+
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund

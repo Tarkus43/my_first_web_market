@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-from .models import MyUser, Item
+from .models import MyUser, Item, Purchase
 from django import forms
 
 class MyUserCreationForm(UserCreationForm):
@@ -16,8 +16,10 @@ class AddItemForm(ModelForm):
         fields = ['name', 'description','price','quantity']
 
 
-class BuyingForm(forms.Form):
-    qty = forms.IntegerField(min_value=1, required=True)
+class BuyingForm(ModelForm):
+    class Meta:
+        model = Purchase
+        fields = ['quantity']
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -38,7 +40,13 @@ class BuyingForm(forms.Form):
         if user_qty > item_qty:
             self.add_error(None, 'Not enough items on storage')
         
+        self.user = MyUser.objects.get(id=user_id)
+        self.item = Item.objects.get(id=self.item_id)
         return cleaned_data
+    
+    def save(self):
+        
+        return super().save()
 
         
 
