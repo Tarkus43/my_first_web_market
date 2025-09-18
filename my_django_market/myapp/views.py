@@ -24,11 +24,11 @@ class BuyingView(CreateView):
 
 
     def form_valid(self, form):
-        item = Item.objects.get(id=self.kwargs['pk'])
-        user = self.request.user
-        qty = form.cleaned_data['qty']
+        # item = Item.objects.get(id=self.kwargs['pk'])
+        # user = self.request.user
+        # qty = form.cleaned_data['qty']
 
-        purchase = form.save(on_commit= False)
+        print(self.request.POST)
 
 
         return super().form_valid(form)
