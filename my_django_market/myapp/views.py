@@ -6,17 +6,22 @@ from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
 
-class BuyingView(FormView):
+class BuyingView(CreateView):
     http_method_names = ['post']
-    success_url = '/'
     form_class = BuyingForm
+    success_url = '/'
 
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
         form_kwargs['request'] = self.request
         form_kwargs['pk'] = self.kwargs['pk']
+        form_kwargs.pop('instance', None)
 
         return form_kwargs
+    
+    def form_invalid(self, form):
+        return redirect(self.success_url)
+
 
     def form_valid(self, form):
         item = Item.objects.get(id=self.kwargs['pk'])
@@ -24,18 +29,14 @@ class BuyingView(FormView):
         qty = form.cleaned_data['qty']
 
         try:
-            result = Purchase.execute(user, item, qty)
+            Purchase.execute(user, item, qty)
 
-            if result == 'succes':
-                Purchase.objects.create(user=user, item=item, quantity=qty)
-            else:
-                raise ValueError
-            
         except ValueError as msg:
              
             form.add_error(None, str(msg))
             return self.form_invalid(form)
 
+        return super().form_valid(form)
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.db import transaction
 
 class MyUser(AbstractUser):
     balance = models.DecimalField(
@@ -28,22 +29,27 @@ class Purchase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-    def execute(self, user: MyUser, item: Item, qty):
+    def execute(user: MyUser, item: Item, qty):
 
-        if user.balance < item.price * qty:
-            raise ValueError("Not enough money")
-        if item.quantity < qty:
-            raise ValueError("Not enough items")
+        try:
+            with transaction.atomic():
+
+                if user.balance < item.price * qty:
+                    raise ValueError("Not enough money")
+                if item.quantity < qty:
+                  raise ValueError("Not enough items")
         
-        user.balance -= item.price * qty
-        item.quantity -= qty
+                user.balance -= item.price * qty
+                item.quantity -= qty
 
-        user.save()
-        item.save()
+                user.save()
+                item.save()
 
+                
+        except Exception as e:
+            raise ValueError
         
-
-        return 'succes'
+        return Purchase.objects.create(user=user, item=item, quantity=qty)
 
     class Meta:
         ordering = ['-created_at', ]
