@@ -29,22 +29,23 @@ class BuyingForm(ModelForm):
 
 
     def clean(self):
-        cleaned_data=  super().clean()
-        user_qty = cleaned_data['quantity'] 
-        item_qty = Item.objects.get(id=self.item_id).quantity
-        user_id = self.request.user.id
-        user_balance = MyUser.objects.get(id=user_id).balance
-        item_price = Item.objects.get(id=self.item_id).price
+        cleaned_data = super().clean()
+        self.user = self.request.user
+        self.item = Item.objects.get(id=self.item_id)
+        self.user_quantity = cleaned_data.get('quantity')
+
+
+
+        item_qty = self.item.quantity
+        user_balance = self.user.balance
+        item_price = self.item.price
 
         if user_balance < item_price:
             self.add_error(None, 'Not enough money')
-        if user_qty > item_qty:
+        if self.user_quantity > item_qty:
             self.add_error(None, 'Not enough items on storage')
-        
-        self.user = MyUser.objects.get(id=user_id)
-        self.item = Item.objects.get(id=self.item_id)
-        self.user_quantity = cleaned_data['quantity']
         return cleaned_data
+    
     
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -60,7 +61,7 @@ class BuyingForm(ModelForm):
                 instance.save()
                 self.item.save()
                 self.user.save()
-                
+
         return instance
 
         
