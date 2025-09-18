@@ -18,20 +18,6 @@ class BuyingView(CreateView):
         form_kwargs.pop('instance', None)
 
         return form_kwargs
-    
-    def form_invalid(self, form):
-        return redirect(self.success_url)
-
-
-    def form_valid(self, form):
-        # item = Item.objects.get(id=self.kwargs['pk'])
-        # user = self.request.user
-        # qty = form.cleaned_data['qty']
-
-        print(self.request.POST)
-
-
-        return super().form_valid(form)
 
 
 
