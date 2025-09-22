@@ -1,44 +1,39 @@
-from django.shortcuts import render, redirect 
-from django.urls import reverse
-from django.views.generic import ListView, CreateView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib import messages
 from django.views.generic.edit import UpdateView
-from django.views import View
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
-from myapp.transactions import purchase_transaction
+from django.contrib.messages.views import SuccessMessageMixin
 
-class PurchasesView(LoginRequiredMixin, ListView):
-    model = Purchase
-    template_name ='purchases.html'
-    paginate_by = 3
 
-class BuyItemView(View):
-    http_method_names = ['post'] 
+class BuyingView(SuccessMessageMixin, CreateView):
+    http_method_names = ['post']
+    form_class = BuyingForm
+    success_url = '/'
+    success_message = 'Purchase was succesful!'
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['request'] = self.request
+        form_kwargs['pk'] = self.kwargs['pk']
+        form_kwargs.pop('instance', None)
+
+        return form_kwargs
+
+    def form_invalid(self, form):
+        for error in form.errors.values():
+            messages.error(self.request, error)
+        return redirect('/')
+    
+    def form_valid(self, form):
+        
+        return super().form_valid(form)
+    
     
 
-
-    def post(self,request,pk):
-        quantity = int(request.POST.get("quantity", 1))
-        user_id = self.request.user.id
-        
-        result = purchase_transaction(pk, quantity, user_id )
-        info = result
-
-        if result == 'succes':
-            info = 'you succesfuly bought that'
-        elif result == 'not enough items':
-            info = 'not enough items in storage'
-        elif result == 'not enough money':
-            info = 'not enough money on your balance'
-        else:
-            info = 'some other error'
-        
-        url = reverse("home") + f"?info={result}"
-        return redirect(url)
-
-        
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
@@ -73,9 +68,9 @@ class MainPageView(ListView):
     queryset = Item.objects.all()
     paginate_by = 3
     template_name = 'main.html'
-    extra_context = {'form':BuyingForm}
-
-
+    extra_context ={
+        'form': BuyingForm
+    }
     
 
 class Login(LoginView):

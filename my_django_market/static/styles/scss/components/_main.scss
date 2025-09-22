@@ -72,3 +72,11 @@
     font-size: 10vh;
     padding: 0 40%;
 }
+
+.main_message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 9vh;
+    background-color: var(--emerald);
+}

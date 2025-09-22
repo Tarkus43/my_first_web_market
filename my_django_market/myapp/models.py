@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.db import transaction
 
 class MyUser(AbstractUser):
     balance = models.DecimalField(
@@ -26,6 +27,16 @@ class Purchase(models.Model):
     item = models.ForeignKey('myapp.Item', on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.user.balance -= self.item.price * self.quantity
+        self.item.quantity -= self.quantity
+
+        with transaction.atomic():
+            self.user.save()
+            self.item.save()
+                
+            return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_at', ]

@@ -6,6 +6,26 @@
   --light: #ecf7da;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 .main_main {
   background-color: var(--smoke);
   display: flex;
@@ -81,6 +101,14 @@
   padding: 0 40%;
 }
 
+.main_message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 9vh;
+  background-color: var(--emerald);
+}
+
 nav {
   min-height: 10vh;
   display: flex;
@@ -109,26 +137,6 @@ body {
 .nav_item a {
   color: var(--night);
   padding: 1vh;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100vh;
-}
-
-li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
 }
 
 .login_main {

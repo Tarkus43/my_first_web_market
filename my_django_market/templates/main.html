@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block user_info %}
-    <div class="main_user_info">
+    <div class="main_purchase_info">
         <span class="main_user_username">{{user.username}}</span>
         <br>
         <span class="main_user_balance">balance:{{user.balance}}</span>
@@ -12,7 +12,15 @@
 
 {% block main %}
     <h1 class="main_title">Items</h1>
-    <h2 class="info_title">{{ request.GET.info }}</h2>
+    <div class="main_message">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
     <main class="main_main">
         <ul class="items_list">
             {% for item in object_list %}
@@ -25,10 +33,10 @@
                         <a class="buy" href='{% url "edit_item" item.id %}'>edit item</a>
                     {% else %}
                         {% if user.is_authenticated %}
-                            <form method="post" action='{% url "buy_item" item.id %}'>
+                            <form action='{% url "buy" item.id %}' method="post">
                                 {% csrf_token %}
-                                {{form}}
-                                <input class="buy" type="submit" value="buy">
+                                {{ form }}
+                                <input type="submit" value="buy" class="buy">
                             </form>
 
                             
