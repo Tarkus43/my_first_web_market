@@ -47,12 +47,3 @@ class BuyingForm(ModelForm):
             self.add_error(None, 'Not enough items on storage')
         
         return cleaned_data
-
-        
-
-
-
-    
- 
-class BuyingForm(forms.Form):
-    quantity = forms.IntegerField(min_value=1)

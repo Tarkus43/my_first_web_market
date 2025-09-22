@@ -8,6 +8,11 @@ from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
 from django.contrib.messages.views import SuccessMessageMixin
 
+class PurchasesView(LoginRequiredMixin, ListView):
+    model = Purchase
+    template_name ='purchases.html'
+    paginate_by = 3
+
 
 class BuyingView(SuccessMessageMixin, CreateView):
     http_method_names = ['post']
