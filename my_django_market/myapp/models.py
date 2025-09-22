@@ -28,6 +28,15 @@ class Purchase(models.Model):
     quantity = models.PositiveIntegerField(null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.user.balance -= self.item.price * self.quantity
+        self.item.quantity -= self.quantity
+
+        with transaction.atomic():
+            self.user.save()
+            self.item.save()
+                
+            return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_at', ]
