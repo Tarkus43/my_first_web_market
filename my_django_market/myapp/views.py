@@ -6,11 +6,14 @@ from django.contrib import messages
 from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
 from myapp.models import Item, Refund, Purchase
+from django.contrib.messages.views import SuccessMessageMixin
 
-class BuyingView(CreateView):
+
+class BuyingView(SuccessMessageMixin, CreateView):
     http_method_names = ['post']
     form_class = BuyingForm
     success_url = '/'
+    success_message = 'Purchase was succesful!'
 
     def get_form_kwargs(self, *args, **kwargs):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
@@ -24,6 +27,11 @@ class BuyingView(CreateView):
         for error in form.errors.values():
             messages.error(self.request, error)
         return redirect('/')
+    
+    def form_valid(self, form):
+        
+        return super().form_valid(form)
+    
     
 
 
