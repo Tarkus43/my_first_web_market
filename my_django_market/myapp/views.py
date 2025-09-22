@@ -13,6 +13,9 @@ class PurchasesView(LoginRequiredMixin, ListView):
     template_name ='purchases.html'
     paginate_by = 3
 
+    def get_queryset(self):
+        return Purchase.objects.filter(user=self.request.user)
+
 
 class BuyingView(SuccessMessageMixin, CreateView):
     http_method_names = ['post']
