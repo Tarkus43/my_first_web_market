@@ -33,6 +33,10 @@ class BuyingForm(ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         self.instance.user = self.request.user
+        
+        if self.item_id not in Item.objects.values_list('id', flat=True):
+            self.add_error(None, 'This item does not exist')
+        
         self.instance.item = Item.objects.get(id=self.item_id)
         self.user_quantity = cleaned_data.get('quantity')
 

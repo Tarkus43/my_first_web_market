@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block title %}your purchases{% endblock title %}
+
+{% block user_info %}
+    <div class="user_info">
+        <span class="user_username">{{user.username}}</span>
+        <br>
+        <span class="user_balance">balance:{{user.balance}}</span>
+    </div>
+
+{% endblock user_info %}
+
 {% block main %}
     <h1 >Theese are your purchases</h1>
     <div class="main_message">
@@ -20,7 +30,7 @@
                     <li class="item_description">{{ purchase.quantity }}</li>
                     <li>
                         <form action="#" method='post'>
-                            <input type="button" value="refund">
+                            <input type="button" value="refund" class='refund_button'>
                         </form>
                     </li>
                 </ul>

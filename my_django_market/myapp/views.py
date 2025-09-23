@@ -27,7 +27,6 @@ class BuyingView(SuccessMessageMixin, CreateView):
         form_kwargs = super().get_form_kwargs(*args, **kwargs)
         form_kwargs['request'] = self.request
         form_kwargs['pk'] = self.kwargs['pk']
-        form_kwargs.pop('instance', None)
 
         return form_kwargs
 
@@ -35,10 +34,6 @@ class BuyingView(SuccessMessageMixin, CreateView):
         for error in form.errors.values():
             messages.error(self.request, error)
         return redirect('/')
-    
-    def form_valid(self, form):
-        
-        return super().form_valid(form)
     
     
 
