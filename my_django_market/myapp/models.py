@@ -55,6 +55,20 @@ class Refund(models.Model):
     purchase = models.OneToOneField('myapp.Purchase', on_delete=models.CASCADE)
     reason = models.CharField(max_length=50, null=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def delete(self, using = None, keep_parents = False, is_approved = False):
+        
+        if is_approved:
+            self.purchase.item.quantity += self.purchase.quantity
+            self.purchase.user.balance += self.purchase.quantity * self.purchase.item.price 
+
+            with transaction.atomic():
+                self.purchase.user.save()
+                self.purchase.item.save()
+                return super().delete(using, keep_parents)
+        
+        else:
+            return super().delete(using, keep_parents)
     
     class Meta:
         ordering = ['-created_at', ]

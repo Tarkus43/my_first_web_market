@@ -16,6 +16,14 @@ class AcceptRefundView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        self.object.delete(is_approved=True)
+        messages.success(self.request, 'Refund succesfuly accepted')
+        return redirect('refunds')
+    
+
+
 
 class DeclineRefundView(UserPassesTestMixin, DeleteView):
     model = Refund

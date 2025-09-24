@@ -31,7 +31,7 @@
                     <h2>{{ refund.reason }}</h2>
                     <p>{{ refund.purchase.item.name }} {{ refund.purchase.quantity }}</p>
                     <p>{{ refund.purchase.user.username }}</p>
-                    <form action="" method="post">
+                    <form action='{% url "accept_refund" refund.id %}' method="post">
                         {% csrf_token %}
                         <input type="submit" value="accept">
                     </form>
