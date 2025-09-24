@@ -29,8 +29,10 @@
                     <li class="item_name">{{ purchase.item.name }}</li>
                     <li class="item_description">{{ purchase.quantity }}</li>
                     <li>
-                        <form action="#" method='post'>
-                            <input type="button" value="refund" class='refund_button'>
+                        <form action='{% url "refund" purchase.id %}' method='post'>
+                            {{ form }}
+                            {% csrf_token %}
+                            <input type="submit" value="refund" class='refund_button'>
                         </form>
                     </li>
                 </ul>

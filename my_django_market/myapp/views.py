@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.views.generic.edit import UpdateView
-from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm
+from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm, RefundForm
 from myapp.models import Item, Refund, Purchase
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -17,7 +17,7 @@ class PurchasesView(LoginRequiredMixin, ListView):
         return Purchase.objects.filter(user=self.request.user)
 
 
-class BuyingView(SuccessMessageMixin, CreateView):
+class BuyingView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     http_method_names = ['post']
     form_class = BuyingForm
     success_url = '/'
@@ -35,6 +35,12 @@ class BuyingView(SuccessMessageMixin, CreateView):
             messages.error(self.request, error)
         return redirect('/')
     
+
+class CreateRefundView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Refund
+    http_method_names = ['post']
+    success_url = '/refunds'
+    success_message = 'Await for staff to accept your refund'
     
 
 
@@ -42,6 +48,9 @@ class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
     paginate_by = 5
     template_name = 'refunds.html'
+    extra_context = {
+        'form':  RefundForm
+    }
 
     def test_func(self):
         return self.request.user.is_superuser

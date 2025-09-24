@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from .models import MyUser, Item, Purchase
 from django import forms
 from django.db import transaction
-from .models import MyUser, Item
+from .models import MyUser, Item, Refund
 from django import forms
 
 class MyUserCreationForm(UserCreationForm):
@@ -51,3 +51,10 @@ class BuyingForm(ModelForm):
             self.add_error(None, 'Not enough items on storage')
         
         return cleaned_data
+    
+class RefundForm(ModelForm):
+    class Meta:
+        model = Refund
+        fields = ['purchase']
+
+    

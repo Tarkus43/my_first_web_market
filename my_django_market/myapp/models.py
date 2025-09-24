@@ -43,6 +43,7 @@ class Purchase(models.Model):
 
 class Refund(models.Model):
     purchase = models.OneToOneField('myapp.Purchase', on_delete=models.CASCADE)
+    reason = models.CharField(max_length=50, null=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
