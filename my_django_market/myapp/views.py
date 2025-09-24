@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -12,6 +13,9 @@ class PurchasesView(LoginRequiredMixin, ListView):
     model = Purchase
     template_name ='purchases.html'
     paginate_by = 3
+    extra_context = {
+        'form':  RefundForm
+    }
 
     def get_queryset(self):
         return Purchase.objects.filter(user=self.request.user)
@@ -37,20 +41,23 @@ class BuyingView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     
 
 class CreateRefundView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    model = Refund
+    form_class = RefundForm
     http_method_names = ['post']
-    success_url = '/refunds'
+    success_url = '/'
     success_message = 'Await for staff to accept your refund'
     
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['request'] = self.request
+        form_kwargs['pk'] = self.kwargs['pk']
+        return form_kwargs
 
 
 class RefundsView(UserPassesTestMixin, ListView):
     model = Refund
     paginate_by = 5
     template_name = 'refunds.html'
-    extra_context = {
-        'form':  RefundForm
-    }
+
 
     def test_func(self):
         return self.request.user.is_superuser

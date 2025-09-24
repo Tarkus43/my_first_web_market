@@ -55,6 +55,22 @@ class BuyingForm(ModelForm):
 class RefundForm(ModelForm):
     class Meta:
         model = Refund
-        fields = ['purchase']
+        fields = ['reason']
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        self.purchase_id = kwargs.pop('pk', None)
+        super().__init__(*args, **kwargs)
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if self.purchase_id not in Purchase.objects.values_list('id', flat=True):
+            self.add_error(None, 'Such purchase does not exist')
+
+        self.instance.purchase = Purchase.objects.get(id=self.purchase_id)
+
+        return cleaned_data
 
     
