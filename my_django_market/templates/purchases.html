@@ -36,6 +36,9 @@
                             <input type="submit" value="refund" class='refund_button'>
                         </form>
                     </li>
+                    
+                    {% elif purchase.is_refunding %}
+                        <p>Please, await for staff to accept your refund</p>
                     {% else %}
                         <p>cant refund, 3 minutes limit is out</p>
 

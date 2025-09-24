@@ -45,6 +45,10 @@ class Purchase(models.Model):
     @property
     def is_refundable(self):
         return (timezone.now() - self.created_at).total_seconds() < settings.ALLOWED_REFUND_TIME
+    
+    @property
+    def is_refunding(self):
+        return self.id in Refund.objects.values_list('purchase_id', flat=True)
 
 
 class Refund(models.Model):
