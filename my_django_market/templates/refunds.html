@@ -13,6 +13,17 @@
 
 {% block main %}
     <h1 class="main_title">refunds</h1>
+
+    <div class="main_message">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
     <main class="main_main">
         {% for refund in object_list %}
             <ul class="refunds_list">
@@ -24,7 +35,7 @@
                         {% csrf_token %}
                         <input type="submit" value="accept">
                     </form>
-                    <form action="" method="post">
+                    <form action='{% url "decline_refund" refund.id %}' method="post">
                         {% csrf_token %}
                         <input type="submit" value="decline">
                     </form>

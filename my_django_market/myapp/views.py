@@ -20,10 +20,15 @@ class AcceptRefundView(UserPassesTestMixin, DeleteView):
 class DeclineRefundView(UserPassesTestMixin, DeleteView):
     model = Refund
     http_method_names = ['post']
-    success_url = 'refunds/'
 
     def test_func(self):
         return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        self.object.delete()
+        messages.success(self.request, 'Refund succesfuly declined')
+        return redirect('refunds')
+    
 
 class PurchasesView(LoginRequiredMixin, ListView):
     model = Purchase
