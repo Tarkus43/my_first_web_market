@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView
+from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
@@ -8,6 +8,22 @@ from django.views.generic.edit import UpdateView
 from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm, RefundForm
 from myapp.models import Item, Refund, Purchase
 from django.contrib.messages.views import SuccessMessageMixin
+
+class AcceptRefundView(UserPassesTestMixin, DeleteView):
+    model = Refund
+    http_method_names = ['post']
+    success_url = 'refunds/'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+class DeclineRefundView(UserPassesTestMixin, DeleteView):
+    model = Refund
+    http_method_names = ['post']
+    success_url = 'refunds/'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 class PurchasesView(LoginRequiredMixin, ListView):
     model = Purchase

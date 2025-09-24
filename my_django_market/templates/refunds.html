@@ -1,10 +1,35 @@
 {% extends "base.html" %}
+
 {% block title %}refunds{% endblock title %}
+
+{% block user_info %}
+    <div class="user_info">
+        <span class="user_username">{{user.username}}</span>
+        <br>
+        <span class="user_balance">balance:{{user.balance}}</span>
+    </div>
+
+{% endblock user_info %}
+
 {% block main %}
     <h1 class="main_title">refunds</h1>
     <main class="main_main">
-        {% comment %} {% for refunds in object_list %} {% endcomment %}
-            
-        {% comment %} {% endfor %} {% endcomment %}
+        {% for refund in object_list %}
+            <ul class="refunds_list">
+                <li class="refunds_item">
+                    <h2>{{ refund.reason }}</h2>
+                    <p>{{ refund.purchase.item.name }} {{ refund.purchase.quantity }}</p>
+                    <p>{{ refund.purchase.user.username }}</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="accept">
+                    </form>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="decline">
+                    </form>
+                </li>
+            </ul>
+        {% endfor %}
     </main>
 {% endblock main %}
