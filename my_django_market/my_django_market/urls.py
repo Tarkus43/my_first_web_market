@@ -16,7 +16,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from myapp.views import MainPageView, Login, Logout, Register, AddItemView, EditItemView, RefundsView, BuyingView, PurchasesView, CreateRefundView, AcceptRefundView, DeclineRefundView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', MainPageView.as_view(), name='home'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', Logout.as_view(), name="logout" ),
+    path('register/', Register.as_view(), name="register" ),
+    path('add_item', AddItemView.as_view(), name="add_item"),
+    path('<int:pk>/', EditItemView.as_view(), name="edit_item"),
+    path('refunds/', RefundsView.as_view(), name="refunds"),
+    path('purchases/', PurchasesView.as_view(), name='purchases'),
+    path('buy/<int:pk>', BuyingView.as_view(), name="buy"),
+    path('refund/<int:pk>', CreateRefundView.as_view(), name="refund"),
+    path('refunds/accept/<int:pk>', AcceptRefundView.as_view(), name='accept_refund'),
+    path('refunds/decline/<int:pk>', DeclineRefundView.as_view(), name='decline_refund'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

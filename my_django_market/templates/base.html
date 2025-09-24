@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles/css/index.min.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    <nav>
+        <ul class="nav_list">
+            <li class="nav_item"><a href='{% url "home" %}'>home</a></li>
+            
+            {% if user.is_authenticated %}
+                
+                {% if user.is_superuser %}
+                    <li class="nav_item"><a href='{% url "refunds" %}'>refunds</a></li>
+                    <li class="nav_item"><a href='{% url "add_item" %}'>add item</a></li>
+                {% else %}    
+                    <li class="nav_item"><a href='{% url "purchases" %}'>purchase list</a></li>
+                {% endif %}
+                
+                <form class="nav_item" action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="nav_item" type="submit">Logout</button>
+                </form>
+                <li class="nav_user_info">
+                    {% block user_info %}{% endblock user_info %}
+                </li>
+            {% else %}
+                <li class="nav_item"><a href='{% url "login" %}'>login</a></li>
+                <li class="nav_item"><a href='{% url "register" %}'>register</a></li>
+            {% endif %}
+            
+        </ul>
+    </nav>
+    {% block main %}
+    {% endblock main %}
+</body>
+</html>

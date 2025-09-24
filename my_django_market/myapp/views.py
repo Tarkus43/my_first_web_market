@@ -1,0 +1,140 @@
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib import messages
+from django.views.generic.edit import UpdateView
+from myapp.forms import MyUserCreationForm, AddItemForm, BuyingForm, RefundForm
+from myapp.models import Item, Refund, Purchase
+from django.contrib.messages.views import SuccessMessageMixin
+
+class AcceptRefundView(UserPassesTestMixin, DeleteView):
+    model = Refund
+    http_method_names = ['post']
+    success_url = 'refunds/'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        self.object.delete(is_approved=True)
+        messages.success(self.request, 'Refund succesfuly accepted')
+        return redirect('refunds')
+    
+
+
+
+class DeclineRefundView(UserPassesTestMixin, DeleteView):
+    model = Refund
+    http_method_names = ['post']
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def form_valid(self, form):
+        self.object.delete()
+        messages.success(self.request, 'Refund succesfuly declined')
+        return redirect('refunds')
+    
+
+class PurchasesView(LoginRequiredMixin, ListView):
+    model = Purchase
+    template_name ='purchases.html'
+    paginate_by = 3
+    extra_context = {
+        'form':  RefundForm
+    }
+
+    def get_queryset(self):
+        return Purchase.objects.filter(user=self.request.user)
+
+
+class BuyingView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    http_method_names = ['post']
+    form_class = BuyingForm
+    success_url = '/'
+    success_message = 'Purchase was succesful!'
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['request'] = self.request
+        form_kwargs['pk'] = self.kwargs['pk']
+
+        return form_kwargs
+
+    def form_invalid(self, form):
+        for error in form.errors.values():
+            messages.error(self.request, error)
+        return redirect('/')
+    
+
+class CreateRefundView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    form_class = RefundForm
+    http_method_names = ['post']
+    success_url = '/'
+    success_message = 'Await for staff to accept your refund'
+    
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['request'] = self.request
+        form_kwargs['pk'] = self.kwargs['pk']
+        return form_kwargs
+
+
+class RefundsView(UserPassesTestMixin, ListView):
+    model = Refund
+    paginate_by = 5
+    template_name = 'refunds.html'
+
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class EditItemView(UserPassesTestMixin, UpdateView):
+    model = Item
+    fields = ['name', 'description','price','quantity']
+    success_url = '/'
+    template_name = 'edit_item.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+
+
+class AddItemView(UserPassesTestMixin, CreateView):
+    form_class = AddItemForm
+    template_name = "add_item.html"
+    success_url = '/'
+
+    def test_func(self) -> bool:
+        return self.request.user.is_superuser
+
+
+class MainPageView(ListView):
+    queryset = Item.objects.all()
+    paginate_by = 3
+    template_name = 'main.html'
+    extra_context ={
+        'form': BuyingForm
+    }
+    
+
+class Login(LoginView):
+
+    template_name = 'login.html'
+    redirect_authenticated_user = False
+    success_url ='/'
+    
+    
+
+class Logout(LoginRequiredMixin, LogoutView):
+    next_page = '/'
+    login_url = 'login/'
+
+    
+class Register(CreateView):
+    form_class = MyUserCreationForm
+    template_name = 'register.html'
+    success_url = '/'

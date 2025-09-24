@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}refunds{% endblock title %}
+
+{% block user_info %}
+    <div class="user_info">
+        <span class="user_username">{{user.username}}</span>
+        <br>
+        <span class="user_balance">balance:{{user.balance}}</span>
+    </div>
+
+{% endblock user_info %}
+
+{% block main %}
+    <h1 class="main_title">refunds</h1>
+
+    <div class="main_message">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <main class="main_main">
+        {% for refund in object_list %}
+            <ul class="refunds_list">
+                <li class="refunds_item">
+                    <h2>{{ refund.reason }}</h2>
+                    <p>{{ refund.purchase.item.name }} {{ refund.purchase.quantity }}</p>
+                    <p>{{ refund.purchase.user.username }}</p>
+                    <form action='{% url "accept_refund" refund.id %}' method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="accept">
+                    </form>
+                    <form action='{% url "decline_refund" refund.id %}' method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="decline">
+                    </form>
+                </li>
+            </ul>
+        {% endfor %}
+    </main>
+{% endblock main %}

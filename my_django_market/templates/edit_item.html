@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}edit{% endblock title %}
+
+{% block main %}
+    <main class="edit_main">
+        <form class="edit_form" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="submit_edit" type="submit" value="confirm">
+        </form>
+    </main>
+{% endblock main %}

@@ -1,0 +1,81 @@
+.main_main{
+    background-color: var(--smoke);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.items_list{
+    background-color: var(--grass);
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5vh;
+}
+
+.item{
+    min-width: 150vh;
+    max-width: 150vh;
+    margin: 3vh;
+    background-color: var(--emerald);
+    padding: 5vh;
+}
+
+.item_name{
+    font-size: 70px;
+    color: var(--light);
+}
+
+.item_description{
+    font-size: 30px;
+}
+
+.item_price{
+    font-size: 50px;
+}
+
+.buy{
+    padding: 1vh 3vh;
+    font-size: 3vh;
+    border-radius: 15px;
+    color: var(--dark);
+    background-color: var(--smoke);
+}
+
+.buy:hover{
+    background-color: var(--night);
+    color: var(--light);
+}
+
+.pagination{
+    align-self: center;
+    margin-bottom: 10vh;
+    font-size: 50px;
+}
+
+.main_user_info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;
+    font-size: xx-large;
+    background-color: var(--night);
+    color: var(--light);
+    padding: 3vh;
+}
+
+.main_title{
+    background-color: var(--smoke);
+    font-size: 10vh;
+    padding: 0 40%;
+}
+
+.main_message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 9vh;
+    background-color: var(--emerald);
+}
