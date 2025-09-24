@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import transaction
+from django.utils import timezone
 
 class MyUser(AbstractUser):
     balance = models.DecimalField(
@@ -40,6 +41,11 @@ class Purchase(models.Model):
 
     class Meta:
         ordering = ['-created_at', ]
+
+    @property
+    def is_refundable(self):
+        return (timezone.now() - self.created_at).total_seconds() < settings.ALLOWED_REFUND_TIME
+
 
 class Refund(models.Model):
     purchase = models.OneToOneField('myapp.Purchase', on_delete=models.CASCADE)

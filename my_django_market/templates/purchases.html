@@ -28,13 +28,19 @@
                 <ul class="item">
                     <li class="item_name">{{ purchase.item.name }}</li>
                     <li class="item_description">{{ purchase.quantity }}</li>
-                    <li>
+                    {% if purchase.is_refundable %}
+                        <li>
                         <form action='{% url "refund" purchase.id %}' method='post'>
                             {{ form }}
                             {% csrf_token %}
                             <input type="submit" value="refund" class='refund_button'>
                         </form>
                     </li>
+                    {% else %}
+                        <p>cant refund, 3 minutes limit is out</p>
+
+                    {% endif %}
+                    
                 </ul>
             {% endfor %}
         </ul>

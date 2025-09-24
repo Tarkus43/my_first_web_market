@@ -133,3 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'myapp.MyUser' 
 
 LOGIN_REDIRECT_URL = '/'
+
+ALLOWED_REFUND_TIME = 180 
